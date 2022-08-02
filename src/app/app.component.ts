@@ -7,4 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ng-store';
+
+  person = {
+    age: 21,
+    name: 'John Doe'
+  };
+
+  onScroll(event: Event): void {
+    const scroll = event.target as HTMLElement;
+    console.log(scroll.scrollTop);
+  }
 }
