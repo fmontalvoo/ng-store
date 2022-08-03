@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { Product } from './product.model';
 
@@ -22,6 +23,11 @@ export class AppComponent {
     width: 100,
     height: 100,
     background: 'red'
+  };
+
+  formData = {
+    email: '',
+    password: ''
   };
 
   products: Product[] = [
@@ -57,6 +63,14 @@ export class AppComponent {
       image: './assets/images/glasses.jpg'
     }
   ];
+
+  onSubmit(form: NgForm): void {
+    if (form.invalid) {
+      alert('Formulario invalido');
+      return;
+    }
+    console.log(form.value);
+  }
 
   onScroll(event: Event): void {
     const scroll = event.target as HTMLElement;

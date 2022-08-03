@@ -19,6 +19,22 @@
   <h3>Edad: {{txtAge.valid}}</h3>
 </div>
 
+<h1>Forms</h1>
+<form (ngSubmit)="onSubmit(form)" #form="ngForm">
+  <div>
+    <label></label>
+    <input name="email" type="email" [(ngModel)]="formData.email" required />
+  </div>
+  <div>
+    <label></label>
+    <input name="password" type="password" [(ngModel)]="formData.password" required />
+  </div>
+  <div>
+    <button type="submit">Iniciar sesión</button>
+  </div>
+</form>
+
+
 <h1>Class & Style</h1>
 <div class="styles">
   <div>
@@ -32,12 +48,10 @@
 
 <h1>NgClass & NgStyle</h1>
 <input type="text" required #nameInput="ngModel" [(ngModel)]="person.name" />
-<hr class="line-error"
-  [ngClass]="{
+<hr class="line-error" [ngClass]="{
     'valid': nameInput.valid,
     'invalid':  nameInput.invalid
-  }"
-  />
+  }" />
 <p class="message-error" [class.invalid]="nameInput.invalid">
   El campo es requerido
 </p>
