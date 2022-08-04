@@ -11,6 +11,8 @@ export class AppComponent {
   title = 'ng-store';
   url = 'https://www.w3schools.com/howto/img_avatar.png';
 
+  showImg = true;
+
   products: Product[] = [
     {
       id: 1,
@@ -30,5 +32,9 @@ export class AppComponent {
 
   imgLoaded(imgUrl: string) {
     console.log('AppComponent: img loaded', imgUrl);
+  }
+
+  toggleImg() {
+    this.showImg = !this.showImg;
   }
 }

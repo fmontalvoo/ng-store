@@ -8,7 +8,17 @@ import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit,
 export class ImgComponent implements OnChanges, OnInit, DoCheck, AfterContentInit,
   AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy {
 
-  @Input() img!: string;
+  counter = 0;
+  counterInterval: number | undefined;
+
+  img!: string;
+  @Input('img')
+  set changeImg(img: string) {
+    // Escucha unicamente los cambios en el input(img).
+    this.img = img;
+    console.log('ImgComponent: changeImg: ' + this.img);
+  }
+  @Input() alt: string = '';
   @Output() imgLoadedEvent = new EventEmitter<string>();
 
   imgDefault: string = './assets/images/album.jpg';
@@ -22,6 +32,7 @@ export class ImgComponent implements OnChanges, OnInit, DoCheck, AfterContentIni
     // Antes y durante el renderizado
     // Detecta cambios en los inputs.
     console.log('2) ImgComponent: ngOnChanges');
+    console.log('Changes:', changes);
   }
 
   ngOnInit(): void {
@@ -29,6 +40,10 @@ export class ImgComponent implements OnChanges, OnInit, DoCheck, AfterContentIni
     // Puede ejecutar funciones asincronas.
     // Se ejecuta una sola vez.
     console.log('3) ImgComponent: ngOnInit');
+    this.counterInterval = window.setInterval(() => {
+      this.counter++;
+      console.info('ImgComponent: counter: ' + this.counter);
+    }, 18 * 100000);
   }
 
   ngDoCheck(): void {
@@ -51,16 +66,20 @@ export class ImgComponent implements OnChanges, OnInit, DoCheck, AfterContentIni
   ngAfterViewInit(): void {
     // Despues del renderizado.
     // Manejo de elementos DOM.
-
     console.log('7) ImgComponent: ngAfterViewInit');
   }
 
   ngAfterViewChecked(): void {
+    // Despues del renderizado.
+    // Detecta cambios en los elementos DOM.
     console.log('8) ImgComponent: ngAfterViewChecked');
   }
 
   ngOnDestroy(): void {
     // Se ejecuta cuando se elimina el componente del DOM.
+    if (this.counterInterval) {
+      window.clearInterval(this.counterInterval);
+    }
     console.log('9) ImgComponent: ngOnDestroy');
   }
 
