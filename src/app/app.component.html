@@ -1,2 +1,2 @@
 <input type="text" [(ngModel)]="url">
-<app-img [img]="url"></app-img>
+<app-img [img]="url" (imgLoadedEvent)="imgLoaded($event)"></app-img>

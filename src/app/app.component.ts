@@ -11,4 +11,8 @@ import { Product } from './product.model';
 export class AppComponent {
   title = 'ng-store';
   url = 'https://www.w3schools.com/howto/img_avatar.png';
+
+  imgLoaded(imgUrl: string) {
+    console.log('AppComponent: img loaded', imgUrl);
+  }
 }

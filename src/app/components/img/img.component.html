@@ -1,5 +1,5 @@
 <p>img works!</p>
-<img width="256" src={{img}} [alt]="img" *ngIf="img; else noImg">
+<img width="256" (load)="imgLoaded()" (error)="imgError()" src={{img}} [alt]="img" *ngIf="img; else noImg">
 <ng-template #noImg>
-  <img width="256" src="./assets/images/album.jpg" alt="No image">
+  <img width="256" [src]="imgDefault" alt="Default">
 </ng-template>
