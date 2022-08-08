@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavBarComponent implements OnInit {
 
+  activeMenu = false;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  toggleMenu() {
+    this.activeMenu = !this.activeMenu;
   }
 
 }
