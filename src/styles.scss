@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+  background-color: #f5f5f5;
+}
+
+.products--grid {
+  display: flex;
+  flex-direction: column;
+
+  img {
+    border-radius: 10px;
+  }
+}

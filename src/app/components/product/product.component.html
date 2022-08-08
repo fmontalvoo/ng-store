@@ -1,3 +1,6 @@
-<img width="256" [src]="product.img" [alt]="product.name">
-<h2>${{product.price}}</h2>
-<p>{{product.name}}</p>
+<!-- <img width="256" [src]="product.img" [alt]="product.name"> -->
+<div>
+  <app-img [img]="product.img"></app-img>
+  <h2>${{product.price}}</h2>
+  <p>{{product.name}}</p>
+</div>

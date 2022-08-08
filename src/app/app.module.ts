@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ImgComponent } from './components/img/img.component';
 import { ProductComponent } from './components/product/product.component';
+import { ProductsComponent } from './components/products/products.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   imports: [
@@ -16,7 +18,9 @@ import { ProductComponent } from './components/product/product.component';
   declarations: [
     AppComponent,
     ImgComponent,
-    ProductComponent
+    ProductComponent,
+    ProductsComponent,
+    NavBarComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -8,8 +8,8 @@ import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit,
 export class ImgComponent implements OnChanges, OnInit, DoCheck, AfterContentInit,
   AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy {
 
-  counter = 0;
-  counterInterval: number | undefined;
+  // counter = 0;
+  // counterInterval: number | undefined;
 
   img!: string;
   @Input('img')
@@ -21,7 +21,7 @@ export class ImgComponent implements OnChanges, OnInit, DoCheck, AfterContentIni
   @Input() alt: string = '';
   @Output() imgLoadedEvent = new EventEmitter<string>();
 
-  imgDefault: string = './assets/images/album.jpg';
+  imgDefault: string = './assets/images/no-img.png';
 
   constructor() {
     // Antes del renderizado
@@ -40,10 +40,10 @@ export class ImgComponent implements OnChanges, OnInit, DoCheck, AfterContentIni
     // Puede ejecutar funciones asincronas.
     // Se ejecuta una sola vez.
     console.log('3) ImgComponent: ngOnInit');
-    this.counterInterval = window.setInterval(() => {
-      this.counter++;
-      console.info('ImgComponent: counter: ' + this.counter);
-    }, 18 * 100000);
+    // this.counterInterval = window.setInterval(() => {
+    //   this.counter++;
+    //   console.info('ImgComponent: counter: ' + this.counter);
+    // }, 18 * 100000);
   }
 
   ngDoCheck(): void {
@@ -77,9 +77,9 @@ export class ImgComponent implements OnChanges, OnInit, DoCheck, AfterContentIni
 
   ngOnDestroy(): void {
     // Se ejecuta cuando se elimina el componente del DOM.
-    if (this.counterInterval) {
-      window.clearInterval(this.counterInterval);
-    }
+    // if (this.counterInterval) {
+    //   window.clearInterval(this.counterInterval);
+    // }
     console.log('9) ImgComponent: ngOnDestroy');
   }
 
