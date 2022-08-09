@@ -10,6 +10,7 @@ import { ProductComponent } from './components/product/product.component';
 import { ProductsComponent } from './components/products/products.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
+import { HighlightDirective } from './directives/highlight.directive';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { TimeAgoPipe } from './pipes/time-ago.pipe';
     ProductComponent,
     ProductsComponent,
     NavBarComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    HighlightDirective
   ],
   providers: [],
   bootstrap: [AppComponent]
