@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Product } from 'src/app/models/product.model';
+import { ProductsService } from 'src/app/services/products.service';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'app-products',
@@ -9,45 +11,28 @@ import { Product } from 'src/app/models/product.model';
 })
 export class ProductsComponent implements OnInit {
 
-  myCartProducts: Product[] = [];
-  total = 0.0;
+  total = 0;
+  myCartProducts: Product[];
 
-  public products: Product[] = [
-    {
-      id: 1,
-      name: 'Automobil de juguete',
-      price: 100,
-      img: 'https://static3.depositphotos.com/1000865/118/i/600/depositphotos_1183767-stock-photo-toy-car.jpg'
-    },
-    {
-      id: 2,
-      name: 'Muñeca de trapo',
-      price: 180,
-      img: 'https://kinuma.com/8869-home_default/muneca-de-trapo-mali.jpg'
-    },
-    {
-      id: 3,
-      name: 'Pelota de futbol',
-      price: 120,
-      img: 'https://media.istockphoto.com/photos/soccer-ball-isolated-3d-rendering-picture-id1257575611?k=20&m=1257575611&s=612x612&w=0&h=g530fFJspT42xFGY7HycLvpBKLXpJ2XAkKCRyY-SK80='
-    },
-    {
-      id: 4,
-      name: 'Castillo',
-      price: 220,
-      img: 'https://i.imgur.com/44nzvkQ.jpg'
-    }
-  ];
+  public products: Product[] = [];
 
-  constructor() { }
+  constructor(
+    private ps: ProductsService,
+    private storeService: StoreService
+  ) {
+    this.myCartProducts = this.storeService.getCart();
+  }
 
   ngOnInit(): void {
+    this.ps.getProducts().subscribe((products: any) => {
+      console.log(products);
+      this.products = products;
+    });
   }
 
   onAddToCart(product: Product): void {
-    console.log('ProductsComponent: onAddToCart', product);
-    this.myCartProducts.push(product);
-    this.total += product.price;
+    this.storeService.onAddToCart(product);
+    this.total = this.storeService.getTotal();
   }
 
 }
