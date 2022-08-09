@@ -9,6 +9,7 @@ import { ImgComponent } from './components/img/img.component';
 import { ProductComponent } from './components/product/product.component';
 import { ProductsComponent } from './components/products/products.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { TimeAgoPipe } from './pipes/time-ago.pipe';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     ImgComponent,
     ProductComponent,
     ProductsComponent,
-    NavBarComponent
+    NavBarComponent,
+    TimeAgoPipe
   ],
   providers: [],
   bootstrap: [AppComponent]
