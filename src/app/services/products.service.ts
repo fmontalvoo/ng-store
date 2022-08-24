@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+
+import { retry } from "rxjs/operators";
 
 import { CreateProductDTO, Product, UpdateProductDTO } from '../models/product.model';
 
@@ -28,7 +30,19 @@ export class ProductsService {
     return this.http.delete<boolean>(`${this.url}/${id}`);
   }
 
-  getProducts() {
-    return this.http.get<Product[]>(this.url);
+  getProducts(limit?: number, offset?: number) {
+    let params = new HttpParams();
+    if (limit && offset !== undefined) {
+      params = params.set('limit', limit);
+      params = params.set('offset', offset);
+    }
+    return this.http.get<Product[]>(this.url, { params })
+    .pipe(
+      retry(3)
+    );
+  }
+
+  getProductsByPage(limit: number, offset: number) {
+    return this.http.get<Product[]>(`${this.url}`, { params: { limit, offset } });
   }
 }

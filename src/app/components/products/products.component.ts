@@ -11,6 +11,9 @@ import { StoreService } from 'src/app/services/store.service';
 })
 export class ProductsComponent implements OnInit {
 
+  limit = 10;
+  offset = 0;
+
   total = 0;
   showDetails = false;
   myCartProducts: Product[];
@@ -26,10 +29,14 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.ps.getProducts()
-      .subscribe((products: any) => {
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    this.ps.getProducts(this.limit, this.offset)
+      .subscribe(products => {
         console.log(products);
-        this.products = products;
+        this.products = this.products.concat(products);
       });
   }
 
@@ -49,6 +56,11 @@ export class ProductsComponent implements OnInit {
 
   toggleProductDetail() {
     this.showDetails = !this.showDetails;
+  }
+
+  loadMore() {
+    this.offset += this.limit;
+    this.loadProducts();
   }
 
 }
