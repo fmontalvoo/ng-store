@@ -11,12 +11,17 @@ export class ProductComponent {
 
   @Input() product!: Product;
   @Output() addedProduct = new EventEmitter<Product>();
+  @Output() showDetail = new EventEmitter<number>();
 
   constructor() { }
 
   addToCart() {
     console.log('ProductComponent: addToCart', this.product);
     this.addedProduct.emit(this.product);
+  }
+
+  showProduct() {
+    this.showDetail.emit(this.product.id);
   }
 
 }

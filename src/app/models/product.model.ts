@@ -1,19 +1,16 @@
-import { Rating } from "./rating.model";
+import { Category } from "./category.model";
 
 export interface Product {
   id: number;
-  title: string;
   price: number;
+  title: string;
+  images: string[];
+  category: Category;
   description: string;
-  category: string;
-  image: string;
-  rating: Rating;
 }
 
-// export interface Product {
-//   id: string | number;
-//   img: string;
-//   name: string;
-//   price: number;
-//   description?: string;
-// }
+export interface CreateProductDTO extends Omit<Product, 'id' | 'category'> {
+  categoryId: number;
+}
+
+export interface UpdateProductDTO extends Partial<CreateProductDTO> { }

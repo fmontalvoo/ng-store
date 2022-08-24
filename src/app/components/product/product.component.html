@@ -1,7 +1,8 @@
 <!-- <img width="256" [src]="product.img" [alt]="product.name"> -->
 <div>
-  <app-img [img]="product.image"></app-img>
-  <h2 >{{product.price | currency:'USD'}}</h2>
+  <app-img *ngIf="product.images.length > 0" [img]="product.images[0]"></app-img>
+  <h2>{{product.price | currency:'USD'}}</h2>
   <p highlight>{{product.title}}</p>
   <button (click)="addToCart()">Add cart</button>
+  <button (click)="showProduct()">Show product</button>
 </div>

@@ -12,9 +12,11 @@ import { StoreService } from 'src/app/services/store.service';
 export class ProductsComponent implements OnInit {
 
   total = 0;
+  showDetails = false;
   myCartProducts: Product[];
 
   public products: Product[] = [];
+  selectedProduct!: Product;
 
   constructor(
     private ps: ProductsService,
@@ -24,15 +26,29 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.ps.getProducts().subscribe((products: any) => {
-      console.log(products);
-      this.products = products;
-    });
+    this.ps.getProducts()
+      .subscribe((products: any) => {
+        console.log(products);
+        this.products = products;
+      });
   }
 
   onAddToCart(product: Product): void {
     this.storeService.onAddToCart(product);
     this.total = this.storeService.getTotal();
+  }
+
+  onShowProduct(id: number) {
+    console.log('onShowProduct', id);
+    this.ps.getProduct(id)
+      .subscribe(product => {
+        this.selectedProduct = product;
+        this.toggleProductDetail();
+      });
+  }
+
+  toggleProductDetail() {
+    this.showDetails = !this.showDetails;
   }
 
 }
