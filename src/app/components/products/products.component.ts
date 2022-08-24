@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { zip } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { Product } from 'src/app/models/product.model';
 import { ProductsService } from 'src/app/services/products.service';
 import { StoreService } from 'src/app/services/store.service';
@@ -65,6 +68,26 @@ export class ProductsComponent implements OnInit {
   loadMore() {
     this.offset += this.limit;
     this.loadProducts();
+  }
+
+  readAndUpdateProduct(id: number) {
+    // Peticiones en cadena
+    this.ps.getProduct(id)
+      .pipe(
+        switchMap(product => this.ps.update(id, { title: 'New title' }))
+      )
+      .subscribe(product => {
+        console.log(product);
+      });
+
+    // Penticiones en paralelo
+    zip(this.ps.getProduct(id), this.ps.update(id, { title: 'New title' }))
+      .subscribe(products => {
+        const get = products[0];
+        const update = products[1];
+        console.log(products, get, update);
+      });
+
   }
 
 }
