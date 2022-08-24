@@ -34,9 +34,13 @@ export class ProductsComponent implements OnInit {
 
   loadProducts() {
     this.ps.getProducts(this.limit, this.offset)
-      .subscribe(products => {
-        console.log(products);
-        this.products = this.products.concat(products);
+      .subscribe({
+        next: products => {
+          console.log(products);
+          this.products = this.products.concat(products);
+        },
+        error: e => console.log(e.error.message),
+        complete: () => console.log('complete')
       });
   }
 

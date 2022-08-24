@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams, HttpStatusCode } from '@angular/common/http';
 
-import { retry } from "rxjs/operators";
+import { retry, catchError, map } from "rxjs/operators";
+import { throwError } from "rxjs";
 
 import { CreateProductDTO, Product, UpdateProductDTO } from '../models/product.model';
 
@@ -20,7 +21,16 @@ export class ProductsService {
   }
 
   getProduct(id: number) {
-    return this.http.get<Product>(`${this.url}/${id}`);
+    return this.http.get<Product>(`${this.url}/${id}`)
+      .pipe(
+        map(product => ({ ...product, taxes: product.price * 0.12 })),
+        catchError((e: HttpErrorResponse) => {
+          console.error(e.message);
+          if (e.status === HttpStatusCode.NotFound)
+            return throwError(() => new Error('Product not found'));
+          return throwError(() => new Error(`-> ${e.message}`));
+        })
+      );
   }
 
   update(id: number, product: UpdateProductDTO) {
@@ -38,9 +48,10 @@ export class ProductsService {
       params = params.set('offset', offset);
     }
     return this.http.get<Product[]>(this.url, { params })
-    .pipe(
-      retry(3)
-    );
+      .pipe(
+        retry(3),
+        map(products => products.map(product => ({ ...product, taxes: product.price * 0.12 }))),
+      );
   }
 
   getProductsByPage(limit: number, offset: number) {
