@@ -10,6 +10,7 @@ import { CreateProductDTO, Product, UpdateProductDTO } from '../models/product.m
 })
 export class ProductsService {
 
+  // private url = '/api/products';
   private url = 'https://young-sands-07814.herokuapp.com/api/products';
 
   constructor(private http: HttpClient) { }
