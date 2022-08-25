@@ -4,7 +4,11 @@ import { HttpClient, HttpErrorResponse, HttpParams, HttpStatusCode } from '@angu
 import { retry, catchError, map } from "rxjs/operators";
 import { throwError } from "rxjs";
 
+import { checkTime } from '../interceptors/time.interceptor';
+
 import { CreateProductDTO, Product, UpdateProductDTO } from '../models/product.model';
+
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +16,7 @@ import { CreateProductDTO, Product, UpdateProductDTO } from '../models/product.m
 export class ProductsService {
 
   // private url = '/api/products';
-  private url = 'https://young-sands-07814.herokuapp.com/api/products';
+  private url = `${environment.api_url}/products`;
 
   constructor(private http: HttpClient) { }
 
@@ -47,7 +51,7 @@ export class ProductsService {
       params = params.set('limit', limit);
       params = params.set('offset', offset);
     }
-    return this.http.get<Product[]>(this.url, { params })
+    return this.http.get<Product[]>(this.url, { params,   context: checkTime()  })
       .pipe(
         retry(3),
         map(products => products.map(product => ({ ...product, taxes: product.price * 0.12 }))),

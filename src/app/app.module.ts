@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { SwiperModule } from 'swiper/angular';
 
@@ -11,8 +11,13 @@ import { ImgComponent } from './components/img/img.component';
 import { ProductComponent } from './components/product/product.component';
 import { ProductsComponent } from './components/products/products.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
+
 import { HighlightDirective } from './directives/highlight.directive';
+
+import { TimeInterceptor } from './interceptors/time.interceptor';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
   imports: [
@@ -32,7 +37,18 @@ import { HighlightDirective } from './directives/highlight.directive';
     TimeAgoPipe,
     HighlightDirective
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TimeInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

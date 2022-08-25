@@ -35,7 +35,8 @@
       </ul>
     </nav>
     <div class="info">
-      <div class="account">fgmo@email.com</div>
+      <button *ngIf="!isLoggedIn" (click)="login()">Iniciar sesi&oacute;n</button>
+      <div *ngIf="isLoggedIn" class="account">fgmo@email.com</div>
       <div class="cart">
         <a href="">
           <img src="./assets/svg/icon_shopping_cart.svg" alt="cart">
