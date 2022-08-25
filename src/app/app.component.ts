@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { AuthService } from './services/auth.service';
+import { FilesService } from './services/files.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent {
 
   showImg = true;
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private fs: FilesService) {
 
   }
 
@@ -25,5 +26,24 @@ export class AppComponent {
     this.showImg = !this.showImg;
   }
 
+  download() {
+    const url = 'https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf';
+    this.fs.getFile('file.pdf', url, 'application/pdf')
+      .subscribe(() => {
+        console.log('AppComponent: file downloaded');
+      }
+      );
+  }
+
+  upload(event: Event) {
+    const element = event.target as HTMLInputElement;
+    const file = element.files?.item(0);
+    if (file) {
+      this.fs.uploadFile(file)
+        .subscribe(res => {
+          console.log('AppComponent: file uploaded', res.location);
+        });
+    }
+  }
 
 }
