@@ -4,6 +4,9 @@
   <h2>{{product.price | currency:'USD'}}</h2>
   <h3>{{product.taxes | currency:'USD'}}</h3>
   <p highlight>{{product.title}}</p>
-  <button (click)="addToCart()">Add cart</button>
-  <button (click)="showProduct()">Show product</button>
+  <small>{{product.category.name}}</small>
+  <div>
+    <button (click)="addToCart()">Add cart</button>
+    <button (click)="showProduct()">Show product</button>
+  </div>
 </div>

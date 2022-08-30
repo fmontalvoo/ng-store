@@ -16,16 +16,16 @@ import { environment } from 'src/environments/environment';
 export class ProductsService {
 
   // private url = '/api/products';
-  private url = `${environment.api_url}/products`;
+  private productsUrl = `${environment.api_url}/products`;
 
   constructor(private http: HttpClient) { }
 
   create(product: CreateProductDTO) {
-    return this.http.post<Product>(this.url, product);
+    return this.http.post<Product>(this.productsUrl, product);
   }
 
   getProduct(id: number) {
-    return this.http.get<Product>(`${this.url}/${id}`)
+    return this.http.get<Product>(`${this.productsUrl}/${id}`)
       .pipe(
         map(product => ({ ...product, taxes: product.price * 0.12 })),
         catchError((e: HttpErrorResponse) => {
@@ -38,11 +38,11 @@ export class ProductsService {
   }
 
   update(id: number, product: UpdateProductDTO) {
-    return this.http.put<Product>(`${this.url}/${id}`, product);
+    return this.http.put<Product>(`${this.productsUrl}/${id}`, product);
   }
 
   delete(id: number) {
-    return this.http.delete<boolean>(`${this.url}/${id}`);
+    return this.http.delete<boolean>(`${this.productsUrl}/${id}`);
   }
 
   getProducts(limit?: number, offset?: number) {
@@ -51,7 +51,7 @@ export class ProductsService {
       params = params.set('limit', limit);
       params = params.set('offset', offset);
     }
-    return this.http.get<Product[]>(this.url, { params,   context: checkTime()  })
+    return this.http.get<Product[]>(this.productsUrl, { params, context: checkTime() })
       .pipe(
         retry(3),
         map(products => products.map(product => ({ ...product, taxes: product.price * 0.12 }))),
@@ -59,6 +59,6 @@ export class ProductsService {
   }
 
   getProductsByPage(limit: number, offset: number) {
-    return this.http.get<Product[]>(`${this.url}`, { params: { limit, offset } });
+    return this.http.get<Product[]>(`${this.productsUrl}`, { params: { limit, offset } });
   }
 }

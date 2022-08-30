@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Category } from 'src/app/models/category.model';
+
 import { AuthService } from 'src/app/services/auth.service';
 import { StoreService } from 'src/app/services/store.service';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,12 +17,19 @@ export class NavBarComponent implements OnInit {
   activeMenu = false;
   productsCount = 0;
 
-  constructor(private auth: AuthService, private storeService: StoreService) { }
+  categories:Category[] = [];
+
+  constructor(
+    private auth: AuthService,
+    private cs: CategoryService,
+    private storeService: StoreService,
+    ) { }
 
   ngOnInit(): void {
     this.storeService.myCart$.subscribe(products => {
       this.productsCount = products.length;
     });
+    this.loadCategories();
   }
 
   toggleMenu() {
@@ -31,6 +41,18 @@ export class NavBarComponent implements OnInit {
       .subscribe(user => {
         this.isLoggedIn = true;
         console.info(user);
+      });
+  }
+
+  loadCategories() {
+    this.cs.getCategories()
+      .subscribe({
+        next: categories => {
+          console.log(categories);
+          this.categories = categories;
+        },
+        error: e => console.log(e.error.message),
+        complete: () => console.log('complete')
       });
   }
 
