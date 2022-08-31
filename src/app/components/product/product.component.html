@@ -10,5 +10,6 @@
   <div>
     <button (click)="addToCart()">Add cart</button>
     <button (click)="showProduct()">Show product</button>
+    <a routerLink="." [queryParams]="{product: product.id}">Show product</a>
   </div>
 </div>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { Product } from 'src/app/models/product.model';
+
 import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
@@ -11,12 +14,25 @@ export class HomeComponent implements OnInit {
 
   limit = 10;
   offset = 0;
+
+  productId: number | null = null;
+
   public products: Product[] = [];
 
-  constructor(private ps: ProductsService,) { }
+  constructor(
+    private ps: ProductsService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
     this.loadProducts();
+
+    this.route.queryParamMap
+      .subscribe(params => {
+        this.productId = +params.get('product')!;
+        console.log(this.productId);
+      });
+
   }
 
   loadProducts() {

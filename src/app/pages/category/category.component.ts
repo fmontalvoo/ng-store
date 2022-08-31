@@ -9,13 +9,14 @@ import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-category',
-  template: `<app-products [products]="products" (loadProducts)="loadMore()"></app-products>`,
+  template: `<app-products [productId]="productId" [products]="products" (loadProducts)="loadMore()"></app-products>`,
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
 
   limit = 5;
   offset = 0;
+  productId: number | null = null;
   categoryId: string | null = null;
   products: Product[] = [];
 
@@ -43,6 +44,14 @@ export class CategoryComponent implements OnInit {
 
     // this.categoryId = this.route.snapshot.params['id'];
     // this.categoryId = this.route.snapshot.paramMap.get('id');
+
+
+    this.route.queryParamMap
+      .subscribe(params => {
+        this.productId = +params.get('product')!;
+        console.log(this.productId);
+      });
+
 
   }
 

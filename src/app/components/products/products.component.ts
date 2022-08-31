@@ -20,6 +20,11 @@ export class ProductsComponent {
   myCartProducts: Product[];
 
   @Input() products: Product[] = [];
+  // @Input() productId: number | null = null;
+  @Input() set productId(id: number | null) {
+    if (id)
+      this.onShowProduct(id);
+  }
   @Output() loadProducts: EventEmitter<void> = new EventEmitter();
 
   selectedProduct!: Product;
