@@ -16,14 +16,15 @@ export class NavBarComponent implements OnInit {
   isLoggedIn = false;
   activeMenu = false;
   productsCount = 0;
+  email: string = '';
 
-  categories:Category[] = [];
+  categories: Category[] = [];
 
   constructor(
     private auth: AuthService,
     private cs: CategoryService,
     private storeService: StoreService,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.storeService.myCart$.subscribe(products => {
@@ -37,10 +38,11 @@ export class NavBarComponent implements OnInit {
   }
 
   login() {
-    this.auth.loginAndGetProfile('fgmo@email.com', '12345')
+    this.auth.loginAndGetProfile('fulano@mail.com', '12345')
       .subscribe(user => {
         this.isLoggedIn = true;
         console.info(user);
+        this.email = user.email;
       });
   }
 
