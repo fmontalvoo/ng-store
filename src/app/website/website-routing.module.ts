@@ -9,7 +9,6 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { RecoveryComponent } from './pages/recovery/recovery.component';
-import { CategoryComponent } from './pages/category/category.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 
 const routes: Routes = [
@@ -31,8 +30,8 @@ const routes: Routes = [
         component: ProductDetailComponent
       },
       {
-        path: 'category/:id',
-        component: CategoryComponent,
+        path: 'category',
+        loadChildren: () => import('./pages/category/category.module').then(m => m.CategoryModule)
       },
       {
         path: 'my-cart',
