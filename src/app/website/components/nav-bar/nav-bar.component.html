@@ -15,8 +15,8 @@
     <button (click)="toggleMenu()">Close</button>
     <ul>
       <li><a routerLink="/">All</a></li>
-      <li>
-        <a *ngFor="let category of categories" [routerLink]="['category', category.id]">
+      <li *ngFor="let category of categories">
+        <a [routerLink]="['category', category.id]">
           {{ category.name }}
         </a>
       </li>
@@ -33,8 +33,8 @@
       </a>
       <ul>
         <li><a routerLink="/home" routerLinkActive="active">All</a></li>
-        <li>
-          <a *ngFor="let category of categories" [routerLink]="['category', category.id]" routerLinkActive="active">
+        <li *ngFor="let category of categories">
+          <a [routerLink]="['category', category.id]" routerLinkActive="active">
             {{ category.name }}
           </a>
         </li>
