@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { tap } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { JWT } from '../models/jwt.model';
 import { User } from '../models/user.model';
@@ -18,9 +18,21 @@ export class AuthService {
 
   private url = `${environment.api_url}/auth`;
 
-  constructor(private http: HttpClient, private ts: TokenService) { }
+  private currentUser = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUser.asObservable();
 
-  login(email: string, password: string) {
+  constructor(private http: HttpClient, private ts: TokenService) {
+    this.currentUser.next(this.user);
+  }
+
+  get user(): User | null {
+    const storedUser = localStorage.getItem('ng-store_user');
+    return storedUser
+      ? JSON.parse(storedUser)
+      : null;
+  }
+
+  login(email: string, password: string): Observable<JWT> {
     return this.http.post<JWT>(`${this.url}/login`, { email, password })
       .pipe(
         tap(token => {
@@ -29,14 +41,26 @@ export class AuthService {
       );
   }
 
-  loginAndGetProfile(email: string, password: string) {
+  loginAndGetProfile(email: string, password: string): Observable<User> {
     return this.login(email, password)
       .pipe(
         switchMap(() => this.profile()),
       );
   }
 
-  profile() {
-    return this.http.get<User>(`${this.url}/profile`);
+  profile(): Observable<User> {
+    return this.http.get<User>(`${this.url}/profile`)
+      .pipe(
+        tap(user => {
+          localStorage.setItem('ng-store_user', JSON.stringify(user));
+          this.currentUser.next(user)
+        })
+      );
+  }
+
+  logout() {
+    this.ts.remove();
+    this.currentUser.next(null);
+    localStorage.removeItem('ng-store_user');
   }
 }

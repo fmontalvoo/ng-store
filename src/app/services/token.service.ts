@@ -15,4 +15,8 @@ export class TokenService {
   get() {
     return this.cookie.get('access_token');
   }
+
+  remove() {
+    this.cookie.delete('access_token');
+  }
 }

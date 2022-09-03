@@ -5,6 +5,7 @@ import { Category } from 'src/app/models/category.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { StoreService } from 'src/app/services/store.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -21,12 +22,18 @@ export class NavBarComponent implements OnInit {
   categories: Category[] = [];
 
   constructor(
+    private router: Router,
     private auth: AuthService,
     private cs: CategoryService,
     private storeService: StoreService,
   ) { }
 
   ngOnInit(): void {
+    console.log('Is logged in?', this.isLoggedIn);
+    this.auth.currentUser$.subscribe(currentUser => {
+      this.isLoggedIn = Boolean(currentUser);
+      this.email = currentUser?.email || '';
+    });
     this.storeService.myCart$.subscribe(products => {
       this.productsCount = products.length;
     });
@@ -38,12 +45,17 @@ export class NavBarComponent implements OnInit {
   }
 
   login() {
-    this.auth.loginAndGetProfile('fulano@mail.com', '12345')
+    this.auth.loginAndGetProfile('john@mail.com', 'changeme')
       .subscribe(user => {
         this.isLoggedIn = true;
         console.info(user);
         this.email = user.email;
       });
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/']);
   }
 
   loadCategories() {

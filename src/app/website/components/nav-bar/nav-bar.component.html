@@ -41,8 +41,11 @@
       </ul>
     </nav>
     <div class="info">
-      <button *ngIf="!isLoggedIn" (click)="login()">Iniciar sesi&oacute;n</button>
-      <div *ngIf="isLoggedIn" class="account">{{email}}</div>
+      <button *ngIf="!isLoggedIn; else elseBlock" (click)="login()">Iniciar sesi&oacute;n</button>
+      <ng-template #elseBlock>
+        <a class="account" routerLink="/profile">{{email}}</a>
+        <button (click)="logout()">Cerrar sesi&oacute;n</button>
+      </ng-template>
       <div class="cart">
         <a href="">
           <img src="./assets/svg/icon_shopping_cart.svg" alt="cart">
