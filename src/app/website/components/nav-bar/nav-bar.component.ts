@@ -45,7 +45,8 @@ export class NavBarComponent implements OnInit {
   }
 
   login() {
-    this.auth.loginAndGetProfile('john@mail.com', 'changeme')
+    // this.auth.loginAndGetProfile('john@mail.com', 'changeme')
+    this.auth.loginAndGetProfile('admin@mail.com', 'admin123')
       .subscribe(user => {
         this.isLoggedIn = true;
         console.info(user);
