@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+
+import { filter, map } from 'rxjs/operators';
+import { getAnalytics, } from 'firebase/analytics';
+import { logEvent } from '@angular/fire/analytics';
 
 import { AuthService } from './services/auth.service';
 import { FilesService } from './services/files.service';
@@ -14,8 +19,25 @@ export class AppComponent {
 
   showImg = true;
 
-  constructor(private auth: AuthService, private fs: FilesService) {
-
+  constructor(
+    private router: Router,
+    private fs: FilesService,
+    private auth: AuthService,
+  ) {
+    const sub = this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        map(event => event as NavigationEnd)
+      )
+      .subscribe(event => {
+        const analytics = getAnalytics();
+        console.info(location.href, event.urlAfterRedirects);
+        logEvent(analytics, 'page_view', {
+          page_location: location.href,
+          page_path: event.urlAfterRedirects,
+        });
+        console.info('page_view');
+      });
   }
 
   imgLoaded(imgUrl: string) {

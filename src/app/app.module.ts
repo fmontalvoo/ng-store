@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { QuicklinkModule } from 'ngx-quicklink';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideAnalytics, getAnalytics, ScreenTrackingService } from '@angular/fire/analytics';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +15,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 
+import { environment } from '../environments/environment';
+
 @NgModule({
   imports: [
     FormsModule,
@@ -21,6 +25,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AppRoutingModule,
     HttpClientModule,
     QuicklinkModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAnalytics(() => getAnalytics()),
   ],
   declarations: [
     AppComponent,
@@ -37,6 +43,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
       useClass: TokenInterceptor,
       multi: true
     },
+    ScreenTrackingService,
   ],
   bootstrap: [AppComponent]
 })

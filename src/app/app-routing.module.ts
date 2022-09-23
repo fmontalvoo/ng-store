@@ -22,6 +22,7 @@ const routes: Routes = [
   },
   {
     path: '404',
+    title: 'Pagina no encontrada',
     component: NotFoundComponent,
   },
   {

@@ -25,37 +25,45 @@ const routes: Routes = [
       },
       {
         path: 'home',
+        title: 'Home',
         component: HomeComponent,
       },
       {
         path: 'product/:id',
+        title: 'Producto',
         component: ProductDetailComponent
       },
       {
         path: 'category',
+        title: 'Categoria',
         data: { preload: true },
         loadChildren: () => import('./pages/category/category.module').then(m => m.CategoryModule)
       },
       {
         path: 'my-cart',
+        title: 'Carrito',
         component: MyCartComponent,
       },
       {
         path: 'login',
+        title: 'Login',
         component: LoginComponent,
       },
       {
         path: 'profile',
+        title: 'Perfil',
         canActivate: [AuthGuard],
         component: ProfileComponent,
       },
       {
         path: 'register',
+        title: 'Registro',
         canDeactivate: [ExitGuard],
         component: RegisterComponent,
       },
       {
         path: 'recovery',
+        title: 'Recuperacion',
         component: RecoveryComponent,
       },
     ]

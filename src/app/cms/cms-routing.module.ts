@@ -17,10 +17,12 @@ const routes: Routes = [
       },
       {
         path: 'tasks',
+        title: 'Tareas',
         component: TasksComponent,
       },
       {
         path: 'grid',
+        title: 'Malla',
         component: GridComponent,
       }
     ]
