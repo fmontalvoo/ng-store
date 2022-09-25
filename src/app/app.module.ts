@@ -21,7 +21,7 @@ import { environment } from '../environments/environment';
 @NgModule({
   imports: [
     FormsModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     AppRoutingModule,
     HttpClientModule,

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -10,6 +10,7 @@ import { User } from '../models/user.model';
 import { TokenService } from './token.service';
 
 import { environment } from 'src/environments/environment';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -21,15 +22,22 @@ export class AuthService {
   private currentUser = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUser.asObservable();
 
-  constructor(private http: HttpClient, private ts: TokenService) {
+  constructor(
+    private http: HttpClient,
+    private ts: TokenService,
+    @Inject(PLATFORM_ID) private platformId: string
+  ) {
     this.currentUser.next(this.user);
   }
 
   get user(): User | null {
-    const storedUser = localStorage.getItem('ng-store_user');
-    return storedUser
-      ? JSON.parse(storedUser)
-      : null;
+    if (isPlatformBrowser(this.platformId)) {
+      const storedUser = localStorage.getItem('ng-store_user');
+      return storedUser
+        ? JSON.parse(storedUser)
+        : null;
+    }
+    return null;
   }
 
   login(email: string, password: string): Observable<JWT> {
@@ -52,7 +60,8 @@ export class AuthService {
     return this.http.get<User>(`${this.url}/profile`)
       .pipe(
         tap(user => {
-          localStorage.setItem('ng-store_user', JSON.stringify(user));
+          if (isPlatformBrowser(this.platformId))
+            localStorage.setItem('ng-store_user', JSON.stringify(user));
           this.currentUser.next(user)
         })
       );
@@ -61,6 +70,7 @@ export class AuthService {
   logout() {
     this.ts.remove();
     this.currentUser.next(null);
-    localStorage.removeItem('ng-store_user');
+    if (isPlatformBrowser(this.platformId))
+      localStorage.removeItem('ng-store_user');
   }
 }
