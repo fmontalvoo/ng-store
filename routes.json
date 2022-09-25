@@ -1,0 +1,20 @@
+{
+  "/": {
+    "/category": 80,
+    "/profile": 20
+  },
+  "/profile": {
+    "/cms": 20,
+    "/home": 0,
+    "/category": 80
+  },
+  "/category": {
+    "/": 20,
+    "/profile": 80
+  },
+  "/cms": {
+    "/": 33,
+    "/grid": 33,
+    "/tasks": 34
+  }
+}
